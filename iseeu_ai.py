@@ -31,9 +31,16 @@ class IseeU:
     # user 와 unknown 각각 한번씩 실행시켜 줘야 함 (혹은 업데이트 시에 한번 더)
     def make_person_list(self, face_path, target):
         img_paths = self.get_image_path(face_path)
+        print("img_paths")
+        print(img_paths)
 
         for idx, path in enumerate(img_paths):
+            print("path")
+            print(path)
             img = self.image_processing(path)
+            print('img')
+            print(img)
+
 
             # target으로 user/unknown/crop 구분
             if target == 'user':
@@ -66,7 +73,7 @@ class IseeU:
             print("person_img)
             print("crop_img")
             print(crop_img)
-            
+
             pred_result = []
 
             for img in self.crop_img:
