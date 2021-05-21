@@ -64,15 +64,16 @@ class IseeU:
             return (target, -1)
 
         self.result_list = []
-        
+
         for num in range(len(person_img)):
             pred_result = []
             for img in self.crop_img:
                 pred_result.append(self.model.predict([img, person_img[num]])[0][0])
+                print(pred_result)
 
             result = self.make_result(pred_result, target)
             self.result_list.append(result)
-            
+
         min_value = min(self.result_list, key= lambda x: x[0]) # 수정 코드 : min_value는 리스트(result)
         person_id = self.result_list.index(min_value)
 
@@ -89,7 +90,7 @@ class IseeU:
         cv2.imwrite(file_name, save_image)
         # 문제점 : 기록이 겹처서 사진이 덮어쓰기 됨. 시간 정보를 받아서 저장해야 함
         # 그리고 boto3로 클라우드에 올려줘야 함
-    
+
     def new_unknown_image_record_write(self):
         save_image = cv2.imread(self.crop_dict[0])
 
@@ -108,7 +109,7 @@ class IseeU:
         margin = 1
 
         return K.mean(Y_true * K.square(D) + (1 - Y_true) * K.maximum((margin-D),0))
-    
+
     def euclidean_distance(self, vectors):
         vector1, vector2 = vectors
         sum_square = K.sum(K.square(vector1 - vector2), axis=1, keepdims=True)
@@ -120,7 +121,7 @@ class IseeU:
         imagePaths = [os.path.join(path,f) for f in os.listdir(path)]
 
         return imagePaths
-    
+
     # 이미지 처리
     def image_processing(self, image):
         img = preprocessing.image.load_img(image, color_mode = "grayscale")
@@ -128,9 +129,9 @@ class IseeU:
         img = cv2.resize(img, (200, 200))  # 사진 봐서 바꿔야함
         img = img.reshape(img.shape[0], img.shape[1], 1)
         img = np.expand_dims(img, axis=0)
-        
+
         return img
-    
+
     # 결과 도출
     def make_result(self, pred_list, target):
         pred_mean = sum(pred_list)/len(pred_list)
