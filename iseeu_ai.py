@@ -31,8 +31,6 @@ class IseeU:
     # user 와 unknown 각각 한번씩 실행시켜 줘야 함 (혹은 업데이트 시에 한번 더)
     def make_person_list(self, face_path, target):
         img_paths = self.get_image_path(face_path)
-        # print("img_paths")
-        # print(img_paths)
 
         for idx, path in enumerate(img_paths):
             # print("path")
@@ -82,6 +80,8 @@ class IseeU:
             result = self.make_result(pred_result, target)
             self.result_list.append(result)
 
+            result_list = [[1_평균,,], [2_평균], ]
+
         min_value = min(self.result_list, key= lambda x: x[0]) # 수정 코드 : min_value는 리스트(result)
         person_id = self.result_list.index(min_value)
 
@@ -129,7 +129,8 @@ class IseeU:
 
     # 경로 내 사진 리스트화
     def get_image_path(self, path):
-        imagePaths = [os.path.join(path,f) for f in os.listdir(path)]
+        imagePaths = [os.path.join(path, f) for f in os.listdir(path)]
+        imagePaths.sort()
 
         return imagePaths
 
