@@ -26,20 +26,20 @@ class IseeU:
 
         self.result_list = []
 
-        self.threshold = 0.01
+        self.threshold = 0.7
 
     # user 와 unknown 각각 한번씩 실행시켜 줘야 함 (혹은 업데이트 시에 한번 더)
     def make_person_list(self, face_path, target):
         img_paths = self.get_image_path(face_path)
-        print("img_paths")
-        print(img_paths)
+        # print("img_paths")
+        # print(img_paths)
 
         for idx, path in enumerate(img_paths):
-            print("path")
-            print(path)
+            # print("path")
+            # print(path)
             img = self.image_processing(path)
-            print('img')
-            print(img)
+            # print('img')
+            # print(img)
 
 
             # target으로 user/unknown/crop 구분
@@ -70,7 +70,7 @@ class IseeU:
 
         for num in range(len(person_img)):
             print("user")
-            print("person_img)
+            print(person_img)
             print("crop_img")
             print(self.crop_img)
 
@@ -84,6 +84,9 @@ class IseeU:
 
         min_value = min(self.result_list, key= lambda x: x[0]) # 수정 코드 : min_value는 리스트(result)
         person_id = self.result_list.index(min_value)
+
+        print(min_value)
+        print(person_id)
 
         # 수정 코드 : min_value는 리스트이므로 thershold와 비교하는 것은 min_value[0] => 즉 가장 낮은 평균값
         if min_value[0] <= self.threshold:
@@ -102,7 +105,7 @@ class IseeU:
     def new_unknown_image_record_write(self):
         save_image = cv2.imread(self.crop_dict[0])
 
-        file_name_for_face = f"/./unknown/{len(self.unknown_img)+1}_unknown.jpg"
+        file_name_for_face = f"./unknown/{len(self.unknown_img)+1}_unknown.jpg"
         print(file_name_for_face)
         file_name_for_record = f"./record/unknown_{len(self.unknown_img)+1}.jpg"
         print(file_name_for_record)

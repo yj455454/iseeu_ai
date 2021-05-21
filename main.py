@@ -4,11 +4,11 @@ i = IseeU()
 
 user_face_path = './user'
 unknown_face_path = './unknown'
-crop_face_path = './FD'
+crop_face_path = './crop'
 
 i.make_person_list(user_face_path, 'user')
 i.make_person_list(unknown_face_path, 'unknown')
-i.make_person_list(unknown_face_path, 'crop')
+i.make_person_list(crop_face_path, 'crop')
 
 target, person_id = i.predict('user')
 
