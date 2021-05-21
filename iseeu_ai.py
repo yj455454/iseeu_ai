@@ -72,7 +72,7 @@ class IseeU:
             print("user")
             print("person_img)
             print("crop_img")
-            print(crop_img)
+            print(self.crop_img)
 
             pred_result = []
 
