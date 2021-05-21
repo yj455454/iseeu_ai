@@ -11,7 +11,7 @@ class IseeU:
     def __init__(self):
         # 모델 로드
         # 경로 라즈베리파이 환경에 맞게바꿔야함
-        self.model = load_model('/Users/spring/PycharmProjects/SmartCCTV/model_test/korean400_2.5.0_0.841.h5',
+        self.model = load_model('./korean400_batch32_0.847.h5',
                                 custom_objects={'contrastive_loss': self.contrastive_loss,
                                                 'euclidean_distance': self.euclidean_distance})
 
@@ -31,10 +31,6 @@ class IseeU:
     # user 와 unknown 각각 한번씩 실행시켜 줘야 함 (혹은 업데이트 시에 한번 더)
     def make_person_list(self, face_path, target):
         img_paths = self.get_image_path(face_path)
-        # 수정 코드 : Mac - DS.store file 제거 코드
-        if target == 'crop':
-            del img_paths[2]
-            print(img_paths)
 
         for idx, path in enumerate(img_paths):
             img = self.image_processing(path)
@@ -66,10 +62,15 @@ class IseeU:
         self.result_list = []
 
         for num in range(len(person_img)):
+            print("user")
+            print("person_img)
+            print("crop_img")
+            print(crop_img)
+            
             pred_result = []
+
             for img in self.crop_img:
                 pred_result.append(self.model.predict([img, person_img[num]])[0][0])
-                print(pred_result)
 
             result = self.make_result(pred_result, target)
             self.result_list.append(result)
@@ -86,7 +87,7 @@ class IseeU:
     def image_record_write(self, target, person_id):
         save_image = cv2.imread(self.result_list[person_id][2])
 
-        file_name = f"/Users/spring/Desktop/record/{target}_{person_id+1}.jpg"
+        file_name = f"./record/{target}_{person_id+1}.jpg"
         cv2.imwrite(file_name, save_image)
         # 문제점 : 기록이 겹처서 사진이 덮어쓰기 됨. 시간 정보를 받아서 저장해야 함
         # 그리고 boto3로 클라우드에 올려줘야 함
@@ -94,9 +95,9 @@ class IseeU:
     def new_unknown_image_record_write(self):
         save_image = cv2.imread(self.crop_dict[0])
 
-        file_name_for_face = f"/Users/spring/Desktop/unknown/{len(self.unknown_img)+1}_unknown.jpg"
+        file_name_for_face = f"/./unknown/{len(self.unknown_img)+1}_unknown.jpg"
         print(file_name_for_face)
-        file_name_for_record = f"/Users/spring/Desktop/record/unknown_{len(self.unknown_img)+1}.jpg"
+        file_name_for_record = f"./record/unknown_{len(self.unknown_img)+1}.jpg"
         print(file_name_for_record)
         ## 수정 코드 필요 : file_name_for_face 동작이 안됨 !! => unknown 폴더에 이미지 저장 안됨, record는 저장됨
 

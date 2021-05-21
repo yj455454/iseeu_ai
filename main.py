@@ -2,9 +2,9 @@ from iseeu_ai import IseeU
 
 i = IseeU()
 
-user_face_path = '/Users/spring/Desktop/user'
-unknown_face_path = '/Users/spring/Desktop/unknown'
-crop_face_path = '/Users/spring/Desktop/FD'
+user_face_path = './user'
+unknown_face_path = './unknown'
+crop_face_path = './FD'
 
 i.make_person_list(user_face_path, 'user')
 i.make_person_list(unknown_face_path, 'unknown')
