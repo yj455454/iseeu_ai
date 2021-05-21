@@ -33,12 +33,8 @@ class IseeU:
         img_paths = self.get_image_path(face_path)
 
         for idx, path in enumerate(img_paths):
-            # print("path")
-            # print(path)
-            img = self.image_processing(path)
-            # print('img')
-            # print(img)
 
+            img = self.image_processing(path)
 
             # target으로 user/unknown/crop 구분
             if target == 'user':
@@ -67,10 +63,6 @@ class IseeU:
         self.result_list = []
 
         for num in range(len(person_img)):
-            print("user")
-            print(person_img)
-            print("crop_img")
-            print(self.crop_img)
 
             pred_result = []
 
@@ -80,13 +72,9 @@ class IseeU:
             result = self.make_result(pred_result, target)
             self.result_list.append(result)
 
-            result_list = [[1_평균,,], [2_평균], ]
-
+        print(result_list)
         min_value = min(self.result_list, key= lambda x: x[0]) # 수정 코드 : min_value는 리스트(result)
         person_id = self.result_list.index(min_value)
-
-        print(min_value)
-        print(person_id)
 
         # 수정 코드 : min_value는 리스트이므로 thershold와 비교하는 것은 min_value[0] => 즉 가장 낮은 평균값
         if min_value[0] <= self.threshold:
@@ -106,9 +94,7 @@ class IseeU:
         save_image = cv2.imread(self.crop_dict[0])
 
         file_name_for_face = f"./unknown/{len(self.unknown_img)+1}_unknown.jpg"
-        print(file_name_for_face)
         file_name_for_record = f"./record/unknown_{len(self.unknown_img)+1}.jpg"
-        print(file_name_for_record)
         ## 수정 코드 필요 : file_name_for_face 동작이 안됨 !! => unknown 폴더에 이미지 저장 안됨, record는 저장됨
 
         cv2.imwrite(file_name_for_face, save_image)
